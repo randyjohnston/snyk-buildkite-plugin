@@ -61,7 +61,8 @@ except Exception as e:
 SEVERITY_MAPPING = {
     'low': 0,
     'medium': 1,
-    'high': 2
+    'high': 2,
+    'critical': 3,
 }
 
 def configure_golang():
@@ -160,7 +161,8 @@ def snyk_test():
     results_seen = {
         'low': {},
         'medium': {},
-        'high': {}
+        'high': {},
+        'critical': {},
     }
     for result in vulns:
         # skip over license results for the time being
@@ -184,10 +186,11 @@ def snyk_test():
             }
 
     # vulnerability metrics
+    EVENT_DATA['vulnCrit'] = len(results_seen['critical'].keys())
     EVENT_DATA['vulnHigh'] = len(results_seen['high'].keys())
     EVENT_DATA['vulnMedium'] = len(results_seen['medium'].keys())
     EVENT_DATA['vulnLow'] = len(results_seen['low'].keys())
-    EVENT_DATA['vulnCount'] = EVENT_DATA['vulnHigh'] + EVENT_DATA['vulnMedium'] + EVENT_DATA['vulnLow']
+    EVENT_DATA['vulnCount'] = VENT_DATA['vulnCrit'] + EVENT_DATA['vulnHigh'] + EVENT_DATA['vulnMedium'] + EVENT_DATA['vulnLow']
 
     vulnerable_paths = 0
     for severity in results_seen:
