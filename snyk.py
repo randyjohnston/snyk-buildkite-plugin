@@ -29,7 +29,7 @@ try:
     ALL_SUBPROJECTS =  True if 'ALLSUBPROJECTS' in os.environ and 'true' in os.environ['ALLSUBPROJECTS'] else False
     VERSION = os.environ['VERSION']
     PLUGIN_NAME = os.environ['PLUGIN_NAME']
-    METRICS_TOPIC_ARN = os.environ['METRICS_TOPIC_ARN']
+    # METRICS_TOPIC_ARN = os.environ['METRICS_TOPIC_ARN']
     REPOSITORY_SLUG = os.environ['REPOSITORY_SLUG']
     ORG = os.environ['ORG']
     ARTIFACTORY_URL = os.environ['ARTIFACTORY_URL'] if 'ARTIFACTORY_URL' in os.environ else ''
@@ -293,7 +293,7 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error('config error')
         logger.exception(e)
-        send_metrics(event_name=EVENTS['error'], error_message=e)
+        # send_metrics(event_name=EVENTS['error'], error_message=e)
         exit(0)
 
     for attempt in range(0,3):
