@@ -53,7 +53,7 @@ def check_for_snyk_test_error(result):
 
 def snyk_test():
     EXIT_CODE = 0
-    os.chdir(REPOSITORY)
+    os.chdir(REPOSITORY_SLUG)
     command = ['snyk', 'test', '--json', '--org={}'.format(ORG), '--project-name={}'.format(REPOSITORY_SLUG)]
     if PATH:
         print('Explicit path specified')
