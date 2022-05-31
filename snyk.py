@@ -158,7 +158,7 @@ def snyk_monitor():
     # monitor doesnt support all-sub-projects and project-name in the same command line.
     if ALL_SUBPROJECTS:
         command.append('--all-sub-projects')
-     else:
+    else:
         command.append('--project-name={}'.format(REPOSITORY_SLUG))
     if PATH:
         command.append('--file={}'.format(PATH))
