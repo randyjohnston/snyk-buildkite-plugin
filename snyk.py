@@ -23,19 +23,10 @@ EVENTS = {
 # extract out environment variables for safe usage
 try:
     # mandatory fields
-    REPOSITORY = os.environ['REPOSITORY']
-    LANGUAGE = os.environ['LANGUAGE']
+    LANGUAGE =  os.environ['LANGUAGE'] if 'LANGUAGE' in os.environ else ''
     ALL_SUBPROJECTS =  True if 'ALLSUBPROJECTS' in os.environ and 'true' in os.environ['ALLSUBPROJECTS'] else False
-    VERSION = os.environ['VERSION']
-    PLUGIN_NAME = os.environ['PLUGIN_NAME']
     # METRICS_TOPIC_ARN = os.environ['METRICS_TOPIC_ARN']
-    REPOSITORY_SLUG = os.environ['REPOSITORY_SLUG']
     ORG = os.environ['ORG']
-    ARTIFACTORY_URL = os.environ['ARTIFACTORY_URL'] if 'ARTIFACTORY_URL' in os.environ else ''
-    ARTIFACTORY_USERNAME = os.environ['ARTIFACTORY_USERNAME'] if 'ARTIFACTORY_USERNAME' in os.environ else ''
-    ARTIFACTORY_PASSWORD = os.environ['ARTIFACTORY_PASSWORD'] if 'ARTIFACTORY_PASSWORD' in os.environ else ''
-    NPM_TOKEN = os.environ['NPM_TOKEN'] if 'NPM_TOKEN' in os.environ else ''
-    SUB_DIRECTORY = os.environ['SUB_DIRECTORY'] if 'SUB_DIRECTORY' in os.environ else ''
     PACKAGE_MANAGER = os.environ['PACKAGE_MANAGER'] if 'PACKAGE_MANAGER' in os.environ else ''
     BLOCK = False if 'BLOCK' in os.environ and 'false' in os.environ['BLOCK'] else True
     PATH = os.environ['DEPENDENCY_PATH'] if 'DEPENDENCY_PATH' in os.environ else ''
@@ -61,7 +52,7 @@ def check_for_snyk_test_error(result):
 
 def snyk_test():
     EXIT_CODE = 0
-    command = ['snyk', 'test', '--json', '--org={}'.format(ORG), '--project-name={}'.format(REPOSITORY_SLUG)]
+    command = ['snyk', 'test', '--json', '--org={}'.format(ORG)]
     if PATH:
         print('Explicit path specified')
         command.append('--file={}'.format(PATH))
@@ -166,9 +157,6 @@ def snyk_monitor():
     # monitor doesnt support all-sub-projects and project-name in the same command line.
     if ALL_SUBPROJECTS:
         command.append('--all-sub-projects')
-    else:
-        command.append('--project-name={}'.format(REPOSITORY_SLUG))
-
     if PATH:
         command.append('--file={}'.format(PATH))
     if SCAN_DEV_DEPS:
