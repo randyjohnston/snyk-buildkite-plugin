@@ -57,7 +57,7 @@ def snyk_test():
     os.chdir(REPOSITORY)
     if 'package-lock.json' in PATH or 'yarn.lock' in PATH:
         print('Vulnerability scanning using lockfile ({})'.format(PATH))
-    elif if LANGUAGE == 'node':
+    elif LANGUAGE == 'node':
         print('Running npm install')
         subprocess.run(['npm', 'install', '-s'])
     command = ['snyk', 'test', '--json', '--org={}'.format(ORG), '--project-name={}'.format(REPOSITORY_SLUG)]
