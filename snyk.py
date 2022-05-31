@@ -4,7 +4,6 @@ import json
 import subprocess
 import logging
 import shutil
-import boto3
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
