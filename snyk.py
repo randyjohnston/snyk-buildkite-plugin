@@ -23,6 +23,7 @@ EVENTS = {
 # extract out environment variables for safe usage
 try:
     # mandatory fields
+    REPOSITORY = os.environ['REPOSITORY']
     REPOSITORY_SLUG = os.environ['REPOSITORY_SLUG']
     LANGUAGE =  os.environ['LANGUAGE'] if 'LANGUAGE' in os.environ else ''
     ALL_SUBPROJECTS =  True if 'ALLSUBPROJECTS' in os.environ and 'true' in os.environ['ALLSUBPROJECTS'] else False
@@ -53,7 +54,7 @@ def check_for_snyk_test_error(result):
 
 def snyk_test():
     EXIT_CODE = 0
-    os.chdir(REPOSITORY_SLUG)
+    os.chdir(REPOSITORY)
     command = ['snyk', 'test', '--json', '--org={}'.format(ORG), '--project-name={}'.format(REPOSITORY_SLUG)]
     if PATH:
         print('Explicit path specified')
