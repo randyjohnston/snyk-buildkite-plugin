@@ -23,6 +23,7 @@ EVENTS = {
 # extract out environment variables for safe usage
 try:
     # mandatory fields
+    REPOSITORY = os.environ['REPOSITORY']
     LANGUAGE =  os.environ['LANGUAGE'] if 'LANGUAGE' in os.environ else ''
     ALL_SUBPROJECTS =  True if 'ALLSUBPROJECTS' in os.environ and 'true' in os.environ['ALLSUBPROJECTS'] else False
     # METRICS_TOPIC_ARN = os.environ['METRICS_TOPIC_ARN']
