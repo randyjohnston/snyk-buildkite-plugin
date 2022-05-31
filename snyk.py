@@ -65,64 +65,6 @@ SEVERITY_MAPPING = {
     'critical': 3,
 }
 
-def configure_golang():
-    print('Configuring golang')
-    os.environ['GOPATH'] = '/'
-    repository = REPOSITORY
-    directory = '/src/github.com/{}'.format(repository)
-    subprocess.run(['mkdir', '-p', directory])
-    subprocess.run(['cp', '-R', repository, '/src/github.com/{}/..'.format(repository)])
-    os.chdir('/src/github.com/{}'.format(repository))
-
-def configure_node():
-    print('Configuring node!\n')
-    print(f'Moving into directory: {REPOSITORY}')
-    os.chdir(REPOSITORY)
-    if SUB_DIRECTORY:
-        print(f'Moving into sub directory: {SUB_DIRECTORY}')
-        os.chdir(SUB_DIRECTORY)
-
-    if NPM_TOKEN:
-        with open('.npmrc', 'a') as f:
-            f.write('//registry.npmjs.org/:_authToken={}'.format(NPM_TOKEN))
-    if 'package-lock.json' in PATH or 'yarn.lock' in PATH:
-        print('Vulnerability scanning using lockfile ({})'.format(PATH))
-    else:
-        print('No lockfile specified, running npm install')
-        subprocess.run(['npm', 'install', '-s'])
-
-def configure_scala():
-    print('Configuring scala.\n')
-    if ARTIFACTORY_URL and ARTIFACTORY_USERNAME and ARTIFACTORY_PASSWORD:
-        print('Configuring artifactory endpoint and credentials')
-        if os.path.isdir(REPOSITORY):
-            print(f'Moving into directory: {REPOSITORY}')
-            os.chdir(REPOSITORY)
-            if SUB_DIRECTORY:
-                print(f'Moving into sub directory: {SUB_DIRECTORY}')
-                os.chdir(SUB_DIRECTORY)
-        else:
-            print('Cannot determine directory for Snyk testing - exiting')
-            exit(0)
-
-        if os.path.isfile('build.gradle'):
-            gradle_properties='gradle.properties'
-
-            if os.path.isfile(gradle_properties):
-                print('gradle.properties exists in current directory.')
-            else:
-                print('gradle.properties will be created.')
-
-            with open(gradle_properties, 'a') as f:
-                f.write('\n')
-                f.write('artifactoryUrl={}\n'.format(ARTIFACTORY_URL))
-                f.write('artifactoryUsername={}\n'.format(ARTIFACTORY_USERNAME))
-                f.write('artifactoryPassword={}\n'.format(ARTIFACTORY_PASSWORD))
-
-    else:
-        print('Artifactory endpoint/credentials are not specified!')
-        os.chdir(REPOSITORY)
-
 def check_for_snyk_test_error(result):
     if 'error' in result:
         TEST_SUCCESS = False
