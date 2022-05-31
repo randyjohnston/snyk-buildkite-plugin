@@ -7,7 +7,6 @@ RUN apk update && apk add --update npm jq go libc-dev openjdk8
 RUN apk add --no-cache nss bash ncurses git
 RUN npm config set unsafe-perm true
 RUN npm install -g snyk
-RUN pip install boto3
 RUN apk add --no-cache --virtual=build-dependencies curl wget tar && \
   curl -fsL "https://github.com/sbt/sbt/releases/download/v$SBT_VERSION/sbt-$SBT_VERSION.tgz" | gunzip | tar -x -C /usr/local && \
       ln -s /usr/local/sbt/bin/sbt /usr/local/bin/sbt && \
