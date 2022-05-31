@@ -42,16 +42,6 @@ try:
     PATH = os.environ['DEPENDENCY_PATH'] if 'DEPENDENCY_PATH' in os.environ else ''
     SEVERITY = os.environ['SEVERITY'] if 'SEVERITY' in os.environ else ''
     SCAN_DEV_DEPS = 'SCAN_DEV_DEPS' in os.environ and 'true' == os.environ['SCAN_DEV_DEPS']
-    EVENT_DATA = {
-        'version': VERSION,
-        'repository': REPOSITORY,
-        'org': ORG,
-        'language': LANGUAGE,
-        'block': BLOCK,
-        'path': PATH,
-        'severity': SEVERITY,
-        'scanDevDeps': SCAN_DEV_DEPS
-    }
 
 except Exception as e:
     logger.error('failed to extract environment variables')
@@ -126,13 +116,6 @@ def snyk_test():
                 'from': [introduced_from],
                 'upgradePath': [result['upgradePath']]
             }
-
-    # vulnerability metrics
-    EVENT_DATA['vulnCrit'] = len(results_seen['critical'].keys())
-    EVENT_DATA['vulnHigh'] = len(results_seen['high'].keys())
-    EVENT_DATA['vulnMedium'] = len(results_seen['medium'].keys())
-    EVENT_DATA['vulnLow'] = len(results_seen['low'].keys())
-    EVENT_DATA['vulnCount'] = VENT_DATA['vulnCrit'] + EVENT_DATA['vulnHigh'] + EVENT_DATA['vulnMedium'] + EVENT_DATA['vulnLow']
 
     vulnerable_paths = 0
     for severity in results_seen:
