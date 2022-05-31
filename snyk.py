@@ -211,7 +211,6 @@ def snyk_monitor():
 if __name__ == "__main__":
     EXIT_CODE = None
     try:
-        eval('configure_{}()'.format(LANGUAGE))
         subprocess.run(['snyk', 'auth', os.environ['SNYK_TOKEN']])
     except Exception as e:
         logger.error('config error')
