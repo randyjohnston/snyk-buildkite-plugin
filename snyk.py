@@ -55,6 +55,11 @@ def check_for_snyk_test_error(result):
 def snyk_test():
     EXIT_CODE = 0
     os.chdir(REPOSITORY)
+    if 'package-lock.json' in PATH or 'yarn.lock' in PATH:
+        print('Vulnerability scanning using lockfile ({})'.format(PATH))
+    else if 'package.json' in PATH:
+        print('No lockfile specified, running npm install')
+        subprocess.run(['npm', 'install', '-s'])
     command = ['snyk', 'test', '--json', '--org={}'.format(ORG), '--project-name={}'.format(REPOSITORY_SLUG)]
     if PATH:
         print('Explicit path specified')
